@@ -2,9 +2,9 @@
 
 #### 1. **Setup and Configuration**
 
-- **Task 1.1**: Initialize the project repository (e.g., Git).
-- **Task 1.2**: Set up the Node.js environment and install necessary packages (e.g., Express, Multer for file uploads).
-- **Task 1.3**: Configure the database connection (e.g., MongoDB or PostgreSQL).
+- [x] **Task 1.1**: Initialize the project repository (e.g., Git).
+- [x] **Task 1.2**: Set up the Node.js environment and install necessary packages (e.g., Express, Multer for file uploads).
+- [x] **Task 1.3**: Configure the database connection (e.g., MongoDB or PostgreSQL). 
 
 #### 2. **User Authentication**
 
