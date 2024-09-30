@@ -1,22 +1,31 @@
 const express = require("express");
-const passport = require("passport");
+const passport = require("../../middlewares/OAuth");
 
 const router = express.Router();
 
-// Redirect to Google for authentication
 router.get(
     "/auth/google",
     passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-// Google OAuth callback
 router.get(
     "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/" }),
-    (req, res) => {
-        // On success, redirect or respond with a token
-        res.redirect("/dashboard");
+    passport.authenticate("google", { session: false, failureRedirect: "/" }),
+    (req, res, next) => {
+        try {
+            if (!req.user || !req.user.token) {
+                return res
+                    .status(401)
+                    .json({ message: "Authentication failed" });
+            }
+            res.json({
+                message: "Authentication successful",
+                token: req.user.token,
+                expiresIn: req.user.expiresIn || 3600, 
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 );
-
 module.exports.users = router;

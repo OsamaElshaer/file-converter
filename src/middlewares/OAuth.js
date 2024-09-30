@@ -2,23 +2,42 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const jwt = require("jsonwebtoken");
 const {
-    JWT_SECRET,
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
+    jwtSecretKey,
+    googleClientId,
+    googleClientSecret,
+    googleCallbackUrl,
 } = require("../config/env");
 
 passport.use(
     new GoogleStrategy(
         {
-            clientID: GOOGLE_CLIENT_ID,
-            clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: "/auth/google/callback",
+            clientID: googleClientId,
+            clientSecret: googleClientSecret,
+            callbackURL: googleCallbackUrl,
         },
         (accessToken, refreshToken, profile, done) => {
-            // Here, typically, you would save user details in the database
-            const payload = { id: profile.id, email: profile.emails[0].value };
-            const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
-            return done(null, { token });
+            try {
+                if (!profile.emails || profile.emails.length === 0) {
+                    return done(
+                        new Error(
+                            "No email associated with this Google account."
+                        )
+                    );
+                }
+
+                const payload = {
+                    id: profile.id,
+                    email: profile.emails[0].value,
+                };
+
+                const token = jwt.sign(payload, jwtSecretKey, {
+                    expiresIn: "1h",
+                });
+
+                return done(null, { token, expiresIn: 3600 });
+            } catch (error) {
+                return done(error, false);
+            }
         }
     )
 );
