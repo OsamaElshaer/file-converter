@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
-const passport = require("../middlewares/Oauth");
+const multer = require("multer");
+
+const passport = require("../middlewares/oAuth");
 const router = require("../api/index");
 const errorHandler = require("../middlewares/errorHandler");
+
+
+const upload = multer({ dest: "uploads/" });
 
 // Middleware
 app.use(express.json());
