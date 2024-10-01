@@ -1,10 +1,12 @@
 const multer = require("multer");
 
-const upload = multer({
+const uploadValidation = multer({
     dest: "uploads/",
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|pdf|docx/;
+        const fileTypes =
+            /jpeg|jpg|png|pdf|doc | docx | xls | xlsx | ppt | pptx/;
+
         const extname = fileTypes.test(file.mimetype);
         if (extname) {
             return cb(null, true);
@@ -14,4 +16,4 @@ const upload = multer({
     },
 });
 
-module.exports = upload;
+module.exports = uploadValidation;
