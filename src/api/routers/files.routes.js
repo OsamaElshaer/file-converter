@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { upload, convert } = require("../../services/files.service");
+const { upload, status } = require("../../services/files.service");
 
 router.post("/upload", upload);
-router.post("/convert", convert);
+router.get("/status/:jobId", status);
 
 module.exports.uploads = router;
