@@ -1,28 +1,30 @@
 const docxConverter = require("docx-pdf");
-let conversionJobs = {};
+const jobModel = require("../../models/jobs.models");
 
-const convertDocxToPdf = (inputFilePath, outputFilePath) => {
-    return new Promise((resolve, reject) => {
-        docxConverter(inputFilePath, outputFilePath, (err) => {
-            if (err) {
-                return reject(new Error(`Conversion failed: ${err.message}`));
-            }
-            resolve(outputFilePath);
-        });
-    });
-};
-
-const convertFileInBackground = async (jobId) => {
-    const { filePath, outputPath } = conversionJobs[jobId];
-
+const convertFileInBackground = async (job) => {
+    const { jobId, filePath, outputPath } = job;
     try {
-        await convertDocxToPdf(filePath, outputPath);
-        conversionJobs[jobId].status = "completed";
-        conversionJobs[jobId].outputPath = outputPath;
+        await new Promise((resolve, reject) => {
+            docxConverter(filePath, outputPath, async (err) => {
+                await jobModel.update(jobId, {
+                    status: "completed",
+                    outputPath: outputPath,
+                });
+                if (err) {
+                    return reject(
+                        new Error(`Conversion failed: ${err.message}`)
+                    );
+                }
+                resolve(outputPath);
+            });
+        });
     } catch (error) {
-        conversionJobs[jobId].status = "failed";
-        conversionJobs[jobId].error = error.message;
+        // Handle the error and update the job status to failed
+        await jobModel.update(jobId, {
+            status: "failed",
+        });
+        console.error("Conversion error:", error);
     }
 };
 
-module.exports = { convertFileInBackground, conversionJobs };
+module.exports = { convertFileInBackground };

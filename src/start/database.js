@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const { dbHost } = require("../config/env");
+const { dbHost, dbName } = require("../config/env");
 
 class DBInterface {
     connect() {
@@ -14,10 +14,7 @@ class MongoDBConnection extends DBInterface {
     constructor(connectionString) {
         super();
         this.connectionString = connectionString;
-        this.client = new MongoClient(this.connectionString, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        this.client = new MongoClient(this.connectionString);
         this.db = null;
     }
 
@@ -25,10 +22,9 @@ class MongoDBConnection extends DBInterface {
         try {
             await this.client.connect();
             console.log("MongoDB connected...");
-            this.db = this.client.db();
+            this.db = this.client.db(dbName);
         } catch (err) {
             throw new Error(`Error connecting to MongoDB: ${err.message}`);
-
         }
     }
 
@@ -62,9 +58,9 @@ class DBConnection {
         await this.dbInstance.disconnect();
     }
 
-    getDatabase() {
+    getDatabase = () => {
         return this.dbInstance.getDatabase();
-    }
+    };
 }
 
 const mongoDBConnection = new MongoDBConnection(dbHost);
