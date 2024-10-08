@@ -33,8 +33,11 @@ passport.use(
                 const token = jwt.sign(payload, jwtSecretKey, {
                     expiresIn: "1h",
                 });
-
-                return done(null, { token, expiresIn: 3600 });
+                return done(null, {
+                    user: profile["_json"],
+                    token,
+                    expiresIn: 3600,
+                });
             } catch (error) {
                 return done(error, false);
             }

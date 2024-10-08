@@ -16,6 +16,7 @@ class FileService {
 
     upload = (req, res, next) => {
         try {
+            let userId = req.user.id;
             uploadValidation.single("file")(req, res, async (err) => {
                 if (err) {
                     return res
@@ -28,6 +29,7 @@ class FileService {
                 const outputPath = `uploads/converted/${jobId}.pdf`;
 
                 let conversionJobs = {
+                    userId,
                     jobId,
                     status: "processing",
                     filePath,
@@ -120,6 +122,18 @@ class FileService {
                     )
                 );
             }
+        } catch (error) {
+            next(error);
+        }
+    };
+    findAll = async (req, res, next) => {
+        try {
+            let userId = req.user.id;
+            let jobs = await this.jobModel.findAll(userId);
+            return res.status(200).json({
+                msg: "all jobs of user ",
+                data: jobs,
+            });
         } catch (error) {
             next(error);
         }

@@ -1,49 +1,49 @@
 const passport = require("../middlewares/oAuth");
 const dbConnection = require("../start/database");
-const db = dbConnection.getDatabase();
+let getDb = dbConnection.getDatabase;
 
 const googleAuth = passport.authenticate("google", {
     scope: ["profile", "email"],
 });
 
 const googleCallback = (req, res, next) => {
-    passport.authenticate("google", async (err, user) => {
+    passport.authenticate("google", async (err, profile) => {
         try {
-            if (err || !user || !user.token) {
+            let user = profile.user;
+            if (err || !user || !profile.token) {
                 return res
                     .status(401)
                     .json({ message: "Authentication failed" });
             }
-
-            const existingUser = await db
+            const existingUser = await getDb()
                 .collection("users")
-                .findOne({ googleId: user.googleId });
-
+                .findOne({ sub: user.googleId });
             if (!existingUser) {
                 const newUser = {
-                    googleId: user.googleId,
+                    googleId: user.sub,
                     email: user.email,
                     name: user.name,
-                    token: user.token,
+                    token: profile.token,
                     createdAt: new Date(),
-                    jobs: []
                 };
-                await db.collection("users").insertOne(newUser);
+                await getDb().collection("users").insertOne(newUser);
             } else {
-                await db.collection("users").updateOne(
-                    { googleId: user.googleId },
-                    {
-                        $set: {
-                            token: user.token,
-                            lastLogin: new Date(),
-                        },
-                    }
-                );
+                await getDb()
+                    .collection("users")
+                    .updateOne(
+                        { googleId: user.sub },
+                        {
+                            $set: {
+                                token: profile.token,
+                                lastLogin: new Date(),
+                            },
+                        }
+                    );
             }
             res.json({
                 message: "Authentication successful",
-                token: user.token,
-                expiresIn: user.expiresIn || 3600,
+                token: profile.token,
+                expiresIn: profile.expiresIn || 3600,
             });
         } catch (error) {
             next(error);
