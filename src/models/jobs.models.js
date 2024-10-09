@@ -15,9 +15,7 @@ class JobModel {
         return result;
     }
     findAll(id) {
-        const cursor = getDb()
-            .collection("jobs")
-            .find({ userId: new ObjectId(id) });
+        const cursor = getDb().collection("jobs").find({ userId: id });
         return cursor.toArray();
     }
 

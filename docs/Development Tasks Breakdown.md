@@ -14,31 +14,26 @@
 
 #### 3. **File Upload and Storage**
 
-- [ ] **Task 3.1**: Create the `/upload` API endpoint to handle file uploads.
-- [ ] **Task 3.2**: Validate uploaded files (size, type).
-- [ ] **Task 3.3**: Implement file storage (local or cloud storage).
+- [x] **Task 3.1**: Create the `/upload` API endpoint to handle file uploads.
+- [x] **Task 3.2**: Validate uploaded files (size, type).
+- [x] **Task 3.3**: Implement file storage (local or cloud storage).
 
 #### 4. **File Conversion Logic**
 
-- [ ] **Task 4.1**: Integrate file conversion libraries (e.g., ImageMagick, pdf-lib).
-- [ ] **Task 4.2**: Create the `/convert` API endpoint to initiate conversions.
-- [ ] **Task 4.3**: Implement logic to handle conversion tasks (e.g., track progress).
+- [x] **Task 4.1**: Integrate file conversion libraries (e.g., ImageMagick, pdf-lib).
+- [x] **Task 4.2**: Create the `/convert` API endpoint to initiate conversions.
+- [x] **Task 4.3**: Implement logic to handle conversion tasks (e.g., track progress).
 
 #### 5. **Conversion Status Tracking**
 
-- [ ] **Task 5.1**: Create the `/status` API endpoint to check conversion progress.
-- [ ] **Task 5.2**: Implement long polling mechanism for real-time updates.
+- [x] **Task 5.1**: Create the `/status` API endpoint to check conversion progress.
+- [x] **Task 5.2**: Implement long polling mechanism for real-time updates.
 
 #### 6. **Download Functionality**
 
-- [ ] **Task 6.1**: Create the `/download/{fileId}` API endpoint for downloading converted files.
-- [ ] **Task 6.2**: Implement security measures for file access (ensure users can only download their files).
+- [x] **Task 6.1**: Create the `/download/{fileId}` API endpoint for downloading converted files.
+- [x] **Task 6.2**: Implement security measures for file access (ensure users can only download their files).
 
-#### 7. **Frontend Development**
-
-- [ ] **Task 7.1**: Set up the frontend project structure (using a framework like React or Vanilla JS).
-- [ ] **Task 7.2**: Create UI components for file upload, format selection, and status display.
-- [ ] **Task 7.3**: Implement API calls to interact with the backend endpoints.
 
 #### 8. **Testing**
 
@@ -48,8 +43,8 @@
 
 #### 9. **Documentation**
 
-- [ ] **Task 9.1**: Update API documentation with any changes made during development.
-- [ ] **Task 9.2**: Create user documentation or README file with setup instructions.
+- [x] **Task 9.1**: Update API documentation with any changes made during development.
+- [x] **Task 9.2**: Create user documentation or README file with setup instructions.
 
 #### 10. **Deployment**
 
