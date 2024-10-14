@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+    title: File Conversion API
+    version: 1.0.0
+    description: API for converting files from DOCX to PDF
+servers:
+    - url: http://localhost:3000/api
+tags:
+    - name: Users
+      description: User management
+    - name: Files
+      description: File operations
+components:
+    securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+paths:
+    /users/auth/google:
+        get:
+            summary: Authenticate user with Google
+            tags: [Users]
+            deprecated: true # Marked as deprecated
+            responses:
+                "200":
+                    description: Successful authentication
+                "500":
+                    description: Server error
+    /users/auth/google/callback:
+        get:
+            summary: Google callback URL
+            tags: [Users]
+            deprecated: true # Marked as deprecated
+            responses:
+                "200":
+                    description: Successful callback
+                "500":
+                    description: Server error
+    /files/upload:
+        post:
+            summary: Upload a file
+            tags: [Files]
+            security:
+                - BearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+            responses:
+                "200":
+                    description: File uploaded successfully
+                "400":
+                    description: Bad request
+    /files/status/{jobId}:
+        get:
+            summary: Check conversion status
+            tags: [Files]
+            security:
+                - BearerAuth: []
+            parameters:
+                - name: jobId
+                  in: path
+                  required: true
+                  description: The ID of the job
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Job status retrieved successfully
+                "404":
+                    description: Job not found
+    /files/download/{fileId}:
+        get:
+            summary: Download a converted file
+            tags: [Files]
+            security:
+                - BearerAuth: []
+            parameters:
+                - name: fileId
+                  in: path
+                  required: true
+                  description: The ID of the file to download
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: File downloaded successfully
+                "404":
+                    description: Job not found or incomplete

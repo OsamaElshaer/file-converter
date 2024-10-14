@@ -21,9 +21,11 @@
     },
     "homepage": "https://github.com/OsamaElshaer/file-converter#readme",
     "dependencies": {
+        "adm-zip": "^0.5.16",
         "docx-pdf": "^0.0.1",
         "dotenv": "^16.4.5",
         "express": "^4.21.0",
+        "js-yaml": "^4.1.0",
         "jsonwebtoken": "^9.0.2",
         "libreoffice-convert": "^1.6.0",
         "mongodb": "^5.9.2",
@@ -31,7 +33,12 @@
         "office-converter": "^1.0.2",
         "passport": "^0.7.0",
         "passport-google-oauth20": "^2.0.0",
-        "winston": "^3.14.2"
+        "pdfkit": "^0.15.0",
+        "swagger-jsdoc": "^6.2.8",
+        "swagger-ui-express": "^5.0.1",
+        "winston": "^3.14.2",
+        "xml2js": "^0.6.2",
+        "yamljs": "^0.3.0"
     },
     "devDependencies": {
         "nodemon": "^3.1.7"
